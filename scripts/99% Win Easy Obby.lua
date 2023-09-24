@@ -13,7 +13,7 @@ getgenv().Settings = {
 -- Library
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wally2", true))()
 
-local Window = Library:CreateWindow("99Lose | EsohaSL")
+local Window = Library:CreateWindow("99Win | EsohaSL")
 
 Window:Section("esohasl.com")
 
