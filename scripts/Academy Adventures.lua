@@ -86,7 +86,7 @@ Window:Toggle("Collect Classroom Keys", {}, function(state)
     task.spawn(function()
         Settings.Classroom = state
         while true do
-            if not Settings.Snakes then return end
+            if not Settings.Classroom then return end
 
             FindScavengerItems("Chapter1ClassroomKeys", "collectedClassroomKeys");
             task.wait(1)
@@ -98,7 +98,7 @@ Window:Toggle("Collect Vault Keys", {}, function(state)
     task.spawn(function()
         Settings.Vault = state
         while true do
-            if not Settings.Snakes then return end
+            if not Settings.Vault then return end
 
             FindScavengerItems("Chapter1VaultKeys", "collectedPaperVaultKeys");
             task.wait(1)
