@@ -43,12 +43,10 @@ Window:Button("YouTube: EsohaSL", function()
    end)
 end)
 
-Workspace.ChildAdded:Connect(function(v)
-    if v.Name == "Coin" then
-        if Settings.Coins then
-            print(os.date() .. " | Trying to get coin")
-            LocalPlayer.Character:PivotTo(v:GetPivot());
-        end
+Workspace.Coins.ChildAdded:Connect(function(v)
+    if Settings.Coins then
+        print(os.date() .. " | Trying to get coin")
+        LocalPlayer.Character:PivotTo(v:GetPivot());
     end
 end)
 
