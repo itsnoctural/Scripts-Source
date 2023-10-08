@@ -43,6 +43,14 @@ Window:Button("YouTube: EsohaSL", function()
    end)
 end)
 
+while task.wait(1) do
+    if Settings.Coins then
+        for _, v in ipairs(Workspace.Coins:GetChildren()) do
+            v:PivotTo(LocalPlayer.Character:GetPivot());
+        end
+    end
+end
+
 Workspace.Coins.ChildAdded:Connect(function(v)
     if Settings.Coins then
         print(os.date() .. " | Trying to get coin")
