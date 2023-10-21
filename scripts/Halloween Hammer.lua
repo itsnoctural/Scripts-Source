@@ -43,13 +43,15 @@ Window:Button("YouTube: EsohaSL", function()
    end)
 end)
 
-while task.wait(1) do
-    if Settings.Coins then
-        for _, v in ipairs(Workspace.Coins:GetChildren()) do
-            v:PivotTo(LocalPlayer.Character:GetPivot());
+task.spawn(function()
+    while task.wait(1) do
+        if Settings.Coins then
+            for _, v in ipairs(Workspace.Coins:GetChildren()) do
+                LocalPlayer.Character:PivotTo(v:GetPivot()); task.wait(.5)
+            end
         end
     end
-end
+end)
 
 Workspace.Coins.ChildAdded:Connect(function(v)
     if Settings.Coins then
