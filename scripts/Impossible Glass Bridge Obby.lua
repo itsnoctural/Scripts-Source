@@ -6,18 +6,18 @@ local LocalPlayer = Players.LocalPlayer
 local Delays = {
     Default = {
         Return = 0.4,
-        Try = 0.55,
-        Respawn = 0.8,
+        Try = 0.5,
+        Respawn = 1.5,
     },
     Secure = {
-        Return = 0.65,
-        Try = 0.85,
-        Respawn = 1,
+        Return = 0.6,
+        Try = 0.8,
+        Respawn = 1.9,
     },
     Extremely = {
-        Return = 1,
-        Try = 1.25,
-        Respawn = 1.5,
+        Return = 0.9,
+        Try = 1.1,
+        Respawn = 2.1,
     }
 }
 
@@ -51,7 +51,7 @@ function CheckingPlates()
                         LocalPlayer.Character:PivotTo(CurrentPlate:GetPivot() + Vector3.new(0, 2.5, 0))
                         task.wait(Settings.Delay.Return)
 
-                        if not isAlive() then Metadata.Plates = {}; return end
+                        if not isAlive() then Metadata.Plates = {}; task.wait(Settings.Delay.Respawn) return end
                     else break end
                 end
             end
@@ -63,11 +63,9 @@ function CheckingPlates()
                 if isAlive() then
                     Metadata.Plates[Child.Name] = v
                     Metadata.Return = false
-                    v.Transparency = 0
                 else
                     LocalPlayer.CharacterAdded:Wait()
                     Metadata.Return = true
-                    v.Transparency = .975
                     task.wait(Settings.Delay.Respawn)
                 end
             end

@@ -25,11 +25,11 @@ Window:Toggle("Default", {}, function(state)
 end)
 
 Window:Button("YouTube: EsohaSL", function()
-   task.spawn(function()
-        pcall(function()
+    task.spawn(function()
+        if setclipboard then
             setclipboard("https://youtube.com/@esohasl")
-        end)
-   end)
+        end
+    end)
 end)
 
 LocalPlayer.Idled:connect(function()

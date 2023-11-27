@@ -6,22 +6,17 @@ local VirtualUser = game:GetService("VirtualUser")
 local LocalPlayer = Players.LocalPlayer
 
 getgenv().Settings = {
-    Birds = false,
-    Guitars = false,
-    Roses = false,
-    Snakes = false,
-    Classroom = false,
-    Vault = false,
+    Collect = false,
 }
 
 local SCAVENGER_ITEMS = Workspace["SCAVENGER_ITEMS"]
 
-function FindScavengerItems(chapterName, folderName)
-    if SCAVENGER_ITEMS:FindFirstChild(chapterName) and SCAVENGER_ITEMS[chapterName]:FindFirstChild(folderName) then
-        for _, v in ipairs(SCAVENGER_ITEMS[chapterName][folderName]:GetChildren()) do
+function FindScavengerItems()
+    for _, v in ipairs(SCAVENGER_ITEMS:GetDescendants()) do
+        if v:IsA("Part") or v:IsA("MeshPart") then
             LocalPlayer.Character:PivotTo((v:GetPivot() * CFrame.Angles(0, 0, math.rad(-90))) + Vector3.new(0, 7.5, 0)); task.wait(.5)
         end
-    end
+    end 
 end
 
 -- Library
@@ -31,77 +26,14 @@ local Window = Library:CreateWindow("AA | EsohaSL")
 
 Window:Section("esohasl.com")
 
-Window:Toggle("Collect Birds", {}, function(state)
+Window:Toggle("Collect All", {}, function(state)
     task.spawn(function()
-        Settings.Birds = state
+        Settings.Collect = state
         while true do
-            if not Settings.Birds then return end
+            if not Settings.Collect then return end
 
-            FindScavengerItems("Prologue", "collectedBirds");
-            task.wait(2.5)
-        end
-    end)
-end)
-
-Window:Toggle("Collect Guitars", {}, function(state)
-    task.spawn(function()
-        Settings.Guitars = state
-        while true do
-            if not Settings.Guitars then return end
-
-            FindScavengerItems("Prologue", "collectedGuitars");
-            task.wait(2.5)
-        end
-    end)
-end)
-
-Window:Toggle("Collect Roses", {}, function(state)
-    task.spawn(function()
-        Settings.Roses = state
-        while true do
-            if not Settings.Roses then return end
-
-            FindScavengerItems("Prologue", "collectedRoses");
-            task.wait(2.5)
-        end
-    end)
-end)
-
-Window:Toggle("Collect Snakes", {}, function(state)
-    task.spawn(function()
-        Settings.Snakes = state
-        while true do
-            if not Settings.Snakes then return end
-
-            FindScavengerItems("Prologue", "collectedSnakes");
-            task.wait(2.5)
-        end
-    end)
-end)
-
-
-Window:Section("Corialonus Snow")
-
-Window:Toggle("Collect Classroom Keys", {}, function(state)
-    task.spawn(function()
-        Settings.Classroom = state
-        while true do
-            if not Settings.Classroom then return end
-
-            FindScavengerItems("Chapter1ClassroomKeys", "collectedClassroomKeys");
-            task.wait(1)
-        end
-    end)
-end)
-
-Window:Toggle("Collect Vault Keys", {}, function(state)
-    task.spawn(function()
-        Settings.Vault = state
-        while true do
-            if not Settings.Vault then return end
-
-            FindScavengerItems("Chapter1VaultKeys", "collectedPaperVaultKeys");
-            task.wait(1)
+            FindScavengerItems();
+            task.wait(1.5)
         end
     end)
 end)
