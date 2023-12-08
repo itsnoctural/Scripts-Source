@@ -13,7 +13,17 @@ getgenv().Settings = {
 }
 
 local Components = {TycoonClient = require(LocalPlayer.PlayerScripts.Client.Components.TycoonClientComponent);}
-local Services = ReplicatedStorage.Packages._Index:FindFirstChild("sleitnick_knit@1.5.3").knit.Services
+
+-- Knit
+local Packages = ReplicatedStorage.Packages._Index
+
+local Knit = Packages:FindFirstChild("sleitnick_knit@1.5.1")
+
+if not Knit then
+    Knit = Packages:FindFirstChild("sleitnick_knit@1.5.3")
+end
+
+local Services = Knit.knit.Services
 
 game:GetService("CoreGui").PurchasePrompt.Enabled = false
 LocalPlayer.PlayerGui.Notification.Enabled = false

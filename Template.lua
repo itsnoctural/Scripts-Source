@@ -1,5 +1,6 @@
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local VirtualUser = game:GetService("VirtualUser")
 
 local LocalPlayer = Players.LocalPlayer
@@ -13,7 +14,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blood
 
 local Window = Library:CreateWindow(" | EsohaSL")
 
-Window:Section("esohasl.com")
+Window:Section("esohasl.net")
 
 Window:Toggle("Default", {}, function(state)
     task.spawn(function()

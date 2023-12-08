@@ -18,8 +18,10 @@ getgenv().Settings = {
 local function GetEggs()
     local Eggs = {}
 
-    for _, v in ipairs(ReplicatedStorage.Assets.Eggs:GetChildren()) do
-        table.insert(Eggs, v.Name)
+    for _, v in ipairs(Workspace.Worlds:GetChildren()) do
+        for _, j in ipairs(v.Eggs:GetChildren()) do
+            table.insert(Eggs, j.Name)
+        end
     end
 
     table.sort(Eggs)
@@ -50,10 +52,8 @@ local function ParseCharacter()
     local Character = GetNearestCharacter()
     local CharacterName = "Noob"
 
-    for _, v in ipairs(Character:GetChildren()) do
-        if v:IsA("Model") and v.Name ~= "Desk" then
-            CharacterName = v.Name
-        end
+    if Character:FindFirstChild("PileRoot") then
+        CharacterName = Character.PileRoot.BattleInfo.Title.Text
     end
 
     for i, v in pairs(BattleConfig.Characters) do
@@ -70,7 +70,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blood
 
 local Window = Library:CreateWindow("PcrnS | EsohaSL")
 
-Window:Section("esohasl.com")
+Window:Section("esohasl.net")
 
 Window:Toggle("Fast Auto Pop", {}, function(state)
     task.spawn(function()
@@ -140,3 +140,5 @@ LocalPlayer.Idled:connect(function()
     task.wait()
     VirtualUser:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame);
 end)
+
+table.foreach(game:GetService("Workspace").Worlds.World3.Battles["2"]:GetAttributes(), print)
