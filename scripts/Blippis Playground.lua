@@ -4,11 +4,12 @@ local VirtualUser = game:GetService("VirtualUser")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local LocalPlayer = Players.LocalPlayer
-local Services = ReplicatedStorage.Packages._Index["sleitnick_knit@1.5.3"].knit.Services
+local Services = ReplicatedStorage.Packages._Index["sleitnick_knit@1.6.0"].knit.Services
 
 getgenv().Settings = {
     Tokens = false,
     Candy = false,
+    Dig = false,
 }
 
 -- Library
@@ -16,7 +17,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blood
 
 local Window = Library:CreateWindow("BP | EsohaSL")
 
-Window:Section("esohasl.com")
+Window:Section("esohasl.net")
 
 Window:Toggle("Auto Farm Tokens", {}, function(state)
     task.spawn(function()
@@ -51,6 +52,23 @@ Window:Toggle("Auto Candy", {}, function(state)
             end
 
             task.wait()
+        end
+    end)
+end)
+
+Window:Toggle("Auto Dig", {}, function(state)
+    task.spawn(function()
+        Settings.Dig = state
+        while true do
+            if not Settings.Dig then return end
+
+            for _, v in ipairs(Workspace.DinoDig:GetChildren()) do
+                for _, j in ipairs(v:GetChildren()) do
+                    Services.DinoDigService.RF.BreakSlab:InvokeServer(j:GetAttribute("ID")); task.wait()
+                end
+            end
+
+            task.wait(.1)
         end
     end)
 end)

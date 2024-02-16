@@ -20,7 +20,9 @@ local Packages = ReplicatedStorage.Packages._Index
 local Knit = Packages:FindFirstChild("sleitnick_knit@1.5.1")
 
 if not Knit then
-    Knit = Packages:FindFirstChild("sleitnick_knit@1.5.3")
+    Knit = Packages:FindFirstChild("sleitnick_knit@1.6.0")
+
+    if not Knit then Knit = Packages:FindFirstChild("sleitnick_knit@1.5.3") end
 end
 
 local Services = Knit.knit.Services
@@ -67,7 +69,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blood
 
 local Window = Library:CreateWindow("e.l.f | EsohaSL")
 
-Window:Section("esohasl.com")
+Window:Section("esohasl.net")
 
 Window:Toggle("Auto Buttons", {}, function(state)
     task.spawn(function()
@@ -76,7 +78,7 @@ Window:Toggle("Auto Buttons", {}, function(state)
             if not Settings.Buttons then return end
 
             AutoButtons();
-            task.wait(.5)
+            task.wait(.25)
         end
     end)
 end)
@@ -88,7 +90,7 @@ Window:Toggle("Auto Collect", {}, function(state)
             if not Settings.Collect then return end
 
             AutoCollectors();
-            task.wait(1)
+            task.wait(.5)
         end
     end)
 end)
@@ -100,7 +102,7 @@ Window:Toggle("Auto Store", {}, function(state)
             if not Settings.Store then return end
 
             AutoStore();
-            task.wait(2.5)
+            task.wait(1)
         end
     end)
 end)
@@ -112,7 +114,7 @@ Window:Toggle("Auto Rebirth", {}, function(state)
             if not Settings.Rebirth then return end
 
             Services.TycoonService.RF.Rebirth:InvokeServer();
-            task.wait(30)
+            task.wait(2.5)
         end
     end)
 end)

@@ -18,14 +18,6 @@ local function FireTouchTransmitter(touchParent)
     end
 end
 
-local function AnchoreCharacter(state)
-    local Root = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-
-    if Root then
-        Root.Anchored = state
-    end
-end
-
 local SleighRide = Workspace["Sleigh Ride"]
 
 -- Library
@@ -64,28 +56,20 @@ Window:Toggle("Auto Points", {}, function(state)
         while true do
             if not Settings.Points then return end
 
-            AnchoreCharacter(true)
-            LocalPlayer.Character:PivotTo(SleighRide.Objects.FinishLineTrigger:GetPivot()); task.wait()
+            LocalPlayer.Character:PivotTo(SleighRide.Objects.FinishLineTrigger:GetPivot()); task.wait(2.5)
 
             for _, v in ipairs(SleighRide.Points:GetChildren()) do
-                FireTouchTransmitter(v); task.wait()
+                LocalPlayer.Character:PivotTo(v:GetPivot()); task.wait(1)
             end
 
-            for i = 1, 3 do
-                LocalPlayer.Character:PivotTo(SleighRide.CheckPoints["checkpoint" .. i]:GetPivot() * CFrame.Angles(0, 0, math.rad(-90))); task.wait(.35)
+            for i = 1, #SleighRide.CheckPoints:GetChildren() do
+                LocalPlayer.Character:PivotTo(SleighRide.CheckPoints["checkpoint" .. i]:GetPivot() * CFrame.Angles(0, 0, math.rad(-90))); task.wait(10)
             end
 
             LocalPlayer.Character:PivotTo(SleighRide.Objects.FinishLineTrigger:GetPivot());
-            AnchoreCharacter(false)
 
             task.wait(1)
         end
-    end)
-end)
-
-Window:Button("Enter to Obby", function()
-    task.spawn(function()
-        LocalPlayer.Character:PivotTo(SleighRide.Entrance.startObby:GetPivot())
     end)
 end)
 
