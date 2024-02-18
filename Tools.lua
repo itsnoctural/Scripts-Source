@@ -1,6 +1,7 @@
 -- Dark Dex V3
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
 
+
 -- Hydroxide
 local owner = "Upbolt"
 local branch = "revision"
@@ -37,4 +38,29 @@ function SimpleDecompile(module)
     return DecompiledModule
 end
 
+_G.decompile = SimpleDecompile
 getgenv().decompile = SimpleDecompile
+
+
+-- UGC Remote Finder
+local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+local LocalPlayer = Players.LocalPlayer
+
+local InputId = 16373638121;
+
+for _,v in pairs(ReplicatedStorage:GetDescendants()) do
+    task.spawn(function()
+        if v:IsA("RemoteEvent") then
+            v:FireServer(InputId);
+            v:FireServer(tostring(InputId));
+        elseif v:IsA("RemoteFunction") then
+            v:InvokeServer(InputId);
+            v:InvokeServer(tostring(InputId));
+        end
+    end)
+end
+
+print("Done.")
