@@ -1,10 +1,21 @@
+local Auth = loadstring(game:HttpGet("https://raw.githubusercontent.com/itsnoctural/Utilities/main/base.lua"))()
+repeat task.wait(.1) until Auth.Finished
+
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local LocalPlayer = Players.LocalPlayer
-local Services = ReplicatedStorage.Packages._Index["sleitnick_knit@1.6.0"].knit.Services
+
+local Packages = ReplicatedStorage.Packages._Index
+local Knit = Packages:FindFirstChild("sleitnick_knit@1.5.3")
+
+if not Knit then
+    Knit = Packages:FindFirstChild("sleitnick_knit@1.6.0")
+end
+
+local Services = Knit.knit.Services
 
 getgenv().Settings = {
     Tokens = false,
