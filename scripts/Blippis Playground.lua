@@ -1,6 +1,3 @@
-local Auth = loadstring(game:HttpGet("https://raw.githubusercontent.com/itsnoctural/Utilities/main/base.lua"))()
-repeat task.wait(.1) until Auth.Finished
-
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")

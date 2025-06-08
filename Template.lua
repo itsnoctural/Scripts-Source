@@ -1,5 +1,4 @@
-local Auth = loadstring(game:HttpGet("https://raw.githubusercontent.com/itsnoctural/Utilities/main/base.lua"))()
-repeat task.wait(.1) until Auth.Finished
+loadstring(game:HttpGet("https://raw.githubusercontent.com/itsnoctural/Utilities/main/base.lua"))()
 
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
@@ -14,7 +13,6 @@ getgenv().Settings = {
 
 -- Library
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wally2", true))()
-
 local Window = Library:CreateWindow(" | EsohaSL")
 
 Window:Section("esohasl.net")
@@ -36,7 +34,7 @@ Window:Button("YouTube: EsohaSL", function()
     end)
 end)
 
-LocalPlayer.Idled:connect(function()
+LocalPlayer.Idled:Connect(function()
     VirtualUser:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame);
     task.wait()
     VirtualUser:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame);

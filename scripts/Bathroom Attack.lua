@@ -1,5 +1,5 @@
-local Auth = loadstring(game:HttpGet("https://raw.githubusercontent.com/itsnoctural/Utilities/main/base.lua"))()
-repeat task.wait(.1) until Auth.Finished
+-- Key System
+loadstring(game:HttpGet("https://raw.githubusercontent.com/itsnoctural/Utilities/main/base.lua"))()
 
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
@@ -13,7 +13,7 @@ local Weapons = require(ReplicatedStorage.Scripts.Configs.WeaponConfig)
 local Skills = require(ReplicatedStorage.Scripts.Configs.SkillConfig)
 
 getgenv().Settings = {
-    Kill = false,
+	Kill = false,
 	Collect = false,
 }
 
@@ -51,50 +51,46 @@ local function IdentifyPlayerWeapon()
 end
 
 local function FireTouchTransmitter(touchParent)
-    local Character = LocalPlayer.Character:FindFirstChildOfClass("Part")
+	local Character = LocalPlayer.Character:FindFirstChildOfClass("Part")
 
-    if Character then
-        firetouchinterest(touchParent, Character, 0)
-        firetouchinterest(touchParent, Character, 1)
-    end
+	if Character then
+			firetouchinterest(touchParent, Character, 0)
+			firetouchinterest(touchParent, Character, 1)
+	end
 end
 
 -- Library
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wally2", true))()
-
 local Window = Library:CreateWindow("BA | EsohaSL")
 
 Window:Section("esohasl.net")
 
 Window:Toggle("Auto Kill", {}, function(state)
-    task.spawn(function()
-        Settings.Kill = state
-        while true do
-            if not Settings.Kill then return end
-
-			local Enemies = {}
+	task.spawn(function()
+		Settings.Kill = state
+		while true do
+			if not Settings.Kill then return end
 
 			for _,v in ipairs(Workspace.Enemies:GetChildren()) do
 				local Head = v:FindFirstChild("Head")
 				local Humanoid = v:FindFirstChildOfClass("Humanoid")
 
 				if Head and (Humanoid and Humanoid.Health > 0) then
-					table.insert(Enemies, Head)
+					ReplicatedStorage.Scripts.Common.Event.RemoteEvent:FireServer(FireArgs .. IdentifyPlayerWeapon() .. "_fire"); task.wait()
+					ReplicatedStorage.Scripts.Common.Event.RemoteEvent:FireServer(FireArgs .. IdentifyPlayerWeapon() .. "_fire_bullet", Vector3.new(0, 0, 0), Vector3.new(0, 0, 0), Head)
 				end
 			end
 
-			ReplicatedStorage.Scripts.Common.Event.RemoteEvent:FireServer(FireArgs .. IdentifyPlayerWeapon() .. "_fire", Vector3.new(0, 0, 0), {Vector3.new(0, 0, 0)}, Enemies)
-
-			task.wait()
-        end
-    end)
+			task.wait(.1)
+		end
+	end)
 end)
 
 Window:Toggle("Auto Collect", {}, function(state)
-    task.spawn(function()
-        Settings.Collect = state
-        while true do
-            if not Settings.Collect then return end
+	task.spawn(function()
+		Settings.Collect = state
+		while true do
+			if not Settings.Collect then return end
 
 			for _,v in ipairs(Workspace.TmpObjects:GetDescendants()) do
 				if v:IsA("TouchTransmitter") then
@@ -103,27 +99,26 @@ Window:Toggle("Auto Collect", {}, function(state)
 			end
 
 			task.wait(.25)
-        end
-    end)
+		end
+	end)
 end)
 
 Window:Button("Teleport to Spawn", function()
-    task.spawn(function()
-        LocalPlayer.Character:PivotTo(Workspace.Lobby.SpawnLocations.SpawnLocation:GetPivot())
-    end)
+	task.spawn(function()
+		LocalPlayer.Character:PivotTo(Workspace.Lobby.SpawnLocations.SpawnLocation:GetPivot())
+	end)
 end)
 
-
 Window:Button("YouTube: EsohaSL", function()
-    task.spawn(function()
-        if setclipboard then
-            setclipboard("https://youtube.com/@esohasl")
-        end
-    end)
+	task.spawn(function()
+		if setclipboard then
+			setclipboard("https://youtube.com/@esohasl")
+		end
+	end)
 end)
 
 LocalPlayer.Idled:Connect(function()
-    VirtualUser:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame);
-    task.wait()
-    VirtualUser:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame);
+	VirtualUser:Button2Down(Vector2.new(0,0), Workspace.CurrentCamera.CFrame);
+	task.wait()
+	VirtualUser:Button2Up(Vector2.new(0,0), Workspace.CurrentCamera.CFrame);
 end)

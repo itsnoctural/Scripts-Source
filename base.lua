@@ -11,6 +11,7 @@ Library:CreateWindow({
     title = "EsohaSL - Key System",
     description = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
     serverCode = "HjKDVu2rAH",
+    supportLabel = true,
     onStartup = function()
         local isNeedKey = not (isfile(Configuration.FileName) and PlatoBoost:verify(readfile(Configuration.FileName)))  
         

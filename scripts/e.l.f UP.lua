@@ -17,14 +17,7 @@ local Components = {TycoonClient = require(LocalPlayer.PlayerScripts.Client.Comp
 -- Knit
 local Packages = ReplicatedStorage.Packages._Index
 
-local Knit = Packages:FindFirstChild("sleitnick_knit@1.5.1")
-
-if not Knit then
-    Knit = Packages:FindFirstChild("sleitnick_knit@1.6.0")
-
-    if not Knit then Knit = Packages:FindFirstChild("sleitnick_knit@1.5.3") end
-end
-
+local Knit = Packages:FindFirstChild("sleitnick_knit@1.7.0")
 local Services = Knit.knit.Services
 
 game:GetService("CoreGui").PurchasePrompt.Enabled = false
@@ -36,22 +29,27 @@ end
 
 local Tycoon = GetTycoon()
 
+local function FireTouchTransmitter(touchParent)
+    local Character = LocalPlayer.Character:FindFirstChildOfClass("Part")
+
+    if Character then
+        firetouchinterest(touchParent, Character, 0)
+        firetouchinterest(touchParent, Character, 1)
+    end
+end
+
 function AutoCollectors()
     for _, v in ipairs(Tycoon.CurrencyCollectors:GetChildren()) do
         if v:FindFirstChild("Hitbox") then
-            firetouchinterest(v.Hitbox, LocalPlayer.Character.HumanoidRootPart, 0)
-            firetouchinterest(v.Hitbox, LocalPlayer.Character.HumanoidRootPart, 1);
+            FireTouchTransmitter(v.Hitbox)
         end
     end
 end
 
 function AutoButtons()
-    for _, table in ipairs({Tycoon.Pads:GetDescendants(), Tycoon.Stores:GetDescendants()}) do
-        for _, v in ipairs(table) do
-            if v:IsA("Part") and v.Name == "Hitbox" and v:FindFirstChildOfClass("TouchTransmitter") then
-                firetouchinterest(v, LocalPlayer.Character.HumanoidRootPart, 0)
-                firetouchinterest(v, LocalPlayer.Character.HumanoidRootPart, 1); task.wait(.1)
-            end 
+    for _, v in ipairs({table.unpack(Tycoon.Pads:GetDescendants()), table.unpack(Tycoon.Stores:GetDescendants())}) do
+        if v.Name == "Hitbox" and v:FindFirstChildOfClass("TouchTransmitter") then
+            FireTouchTransmitter(v)
         end
     end
 end
@@ -78,7 +76,7 @@ Window:Toggle("Auto Buttons", {}, function(state)
             if not Settings.Buttons then return end
 
             AutoButtons();
-            task.wait(.25)
+            task.wait(.5)
         end
     end)
 end)
@@ -90,7 +88,7 @@ Window:Toggle("Auto Collect", {}, function(state)
             if not Settings.Collect then return end
 
             AutoCollectors();
-            task.wait(.5)
+            task.wait(.75)
         end
     end)
 end)
@@ -114,7 +112,7 @@ Window:Toggle("Auto Rebirth", {}, function(state)
             if not Settings.Rebirth then return end
 
             Services.TycoonService.RF.Rebirth:InvokeServer();
-            task.wait(2.5)
+            task.wait(3.5)
         end
     end)
 end)
@@ -129,6 +127,17 @@ Window:Toggle("Auto Spin Wheel", {}, function(state)
             task.wait(1)
             Services.SpinService.RF.Claim:InvokeServer()
             task.wait(120)
+        end
+    end)
+end)
+
+Window:Button("Collect Sinfluencer Items", function()
+    task.spawn(function()
+        for _,v in ipairs(Workspace.PRojectMercuryHiddenItemComponents:GetChildren()) do
+            if v:FindFirstChild("Part") then
+                firetouchinterest(v.Part, LocalPlayer.Character.HumanoidRootPart, 0)
+                firetouchinterest(v.Part, LocalPlayer.Character.HumanoidRootPart, 1); task.wait(.25)
+            end
         end
     end)
 end)

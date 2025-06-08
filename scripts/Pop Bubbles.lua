@@ -111,7 +111,7 @@ Window:Toggle("Auto Spin", {}, function(state)
             if not Settings.Spin then return end
 
             ReplicatedStorage.RequestWheelSpin:InvokeServer();
-            task.wait(1)
+            task.wait(2.5)
         end
     end)
 end)
