@@ -39,28 +39,37 @@ end
 
 local Grid = GetGrid()
 
-function GetJson(url)
-    local Response = game:HttpGet(string.format("https://images.esohasl.net" .. "/?url=%s&executor=%s", url, string.gsub(identified, "%s+", "")))
+function Fetch(url)
+    local success, msg = pcall(function()
+        return game:HttpGet(
+            string.format("https://esohasl.onrender.com/?url=%s&executor=%s", url, string.gsub(identified, "%s+", ""))
+        )
+    end)
 
-    if string.find(Response, "502") then
-        SendNotify("Server Error | 502", "The server may have gone down unexpectedly. Report to discord.gg/HjKDVu2rAH - I'll fix it as soon as possible.")
-        return {}
-    elseif string.find(Response, "Bad Request") or string.find(Response, "undefined is not an object") then
-        SendNotify("Invalid URL", "The link provided is incorrect. discord.gg/HjKDVu2rAH to get help how get correct links.")
-        return {}
+    if not success then
+        if string.find(msg, "422") then
+            SendNotify("Invalid URL", "Image url must begin with https. Join discord.gg/HjKDVu2rAH to get help.")
+        elseif string.find(msg, "400") then
+            SendNotify("Error.", "An error occurred while processing the image. Report to discord.gg/HjKDVu2rAH")
+        end
+
+        return false
     end
 
-    return HttpService:JSONDecode(Response)
+    return HttpService:JSONDecode(msg)
 end
 
 function Import(url)
     if Settings.IsDrawing then return end
 
-    local pixels = GetJson(url)
+    local pixels = Fetch(url)
+    if not pixels then return end
+
+    if not Grid then 
+        Grid = GetGrid() 
+    end
+
     local usedIndices = {}
-
-    if not Grid then Grid = GetGrid() end
-
     Settings.IsDrawing = true
 
     for i = 1, #pixels do
@@ -105,7 +114,7 @@ end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wally2", true))()
 local Window = Library:CreateWindow("Starving Arts")
 
-Window:Section("esohasl.net")
+Window:Section("esohasl.vercel.app")
 
 Window:Button("Draw", function()
     task.spawn(function()
