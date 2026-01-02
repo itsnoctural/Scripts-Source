@@ -46,12 +46,17 @@ function Functions:JoinGame()
     Remotes.GamePlayer:FireServer("JoinGame")
 end
 
+function Functions:Teleport(dest)
+    if LocalPlayer.Character and LocalPlayer.Character.Parent ~= nil then
+        LocalPlayer.Character:PivotTo(dest)
+    end
+end
 
 -- Doors
 function Functions:UnlockDoor()
     for _, v in pairs(Paths.Maps:GetDescendants()) do
         if v.Parent ~= nil and v.Name == "ExitRoot" and v:FindFirstChildOfClass("TouchTransmitter") then
-            LocalPlayer.Character:PivotTo(v.Parent:GetPivot()); return
+            Functions:Teleport(v.Parent:GetPivot()); return
         elseif v:IsA("ProximityPrompt") then
             local vParent = v.Parent
             local Model = vParent.Parent
@@ -59,7 +64,7 @@ function Functions:UnlockDoor()
 
             if Folder.Name == "ItemPlace" and vParent.Name == "ControlPart" then
                 if LocalPlayer:DistanceFromCharacter(vParent.Position) > 10 then
-                    LocalPlayer.Character:PivotTo(Model:GetPivot()); task.wait(.1)
+                    Functions:Teleport(Model:GetPivot()); task.wait(.1)
                 end
                 fireproximityprompt(v); return
             end
@@ -84,7 +89,7 @@ function Functions:PickupKey()
 
             if vParent:IsA("Part") and vParent.Name == "Point_1" then
                 if LocalPlayer:DistanceFromCharacter(vParent.Position) > 10 then
-                    LocalPlayer.Character:PivotTo(vParent:GetPivot()); task.wait(.1)
+                    Functions:Teleport(vParent:GetPivot()); task.wait(.1)
                 end
                 fireproximityprompt(v); break
             end
